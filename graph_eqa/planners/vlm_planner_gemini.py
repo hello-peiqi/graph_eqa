@@ -8,7 +8,10 @@ import os
 import mimetypes
 from graph_eqa.utils.data_utils import get_latest_image
 
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+if os.environ["GOOGLE_API_KEY"] is not None:
+    genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+else:
+    print('Gemini token has not been set up yet!')
 
 # Choose a Gemini model.
 gemini_model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")

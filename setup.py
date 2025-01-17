@@ -13,7 +13,8 @@ setup(
         "scikit-image",
         "yacs",
         "networkx",
-        "SentencePiece"
+        "SentencePiece",
+        "google-generativeai",
     ],
     include_package_data=True,
 )
