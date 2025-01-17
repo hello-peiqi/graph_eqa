@@ -1,5 +1,5 @@
-robot_ip: 192.168.0.15 # Check
-enable_rerun_server: True
+robot_ip: 100.76.87.51 # Check
+enable_rerun_server: False
 enable_realtime_updates: False
 use_semantic_sensor: True
 device_id_sem_sensor: 0

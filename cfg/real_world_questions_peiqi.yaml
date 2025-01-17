@@ -1,0 +1,7 @@
+Question0:
+  question: "What is the color of the table?"
+  choices:
+    A: 'Black'
+    B: 'White'
+  answer: A
+  enrich_labels: "table"
