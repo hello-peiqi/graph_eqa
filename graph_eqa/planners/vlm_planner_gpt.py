@@ -8,7 +8,7 @@ from openai import OpenAI
 from graph_eqa.utils.data_utils import get_latest_image
 from pydantic import BaseModel
 
-if os.environ["OPENAI_API_KEY"] is not None:
+if "OPENAI_API_KEY" in os.environ:
     client = OpenAI()
 else:
     print('GPT token has not been set up yet!')

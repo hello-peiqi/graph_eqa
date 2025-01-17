@@ -8,7 +8,7 @@ import os
 import mimetypes
 from graph_eqa.utils.data_utils import get_latest_image
 
-if os.environ["GOOGLE_API_KEY"] is not None:
+if "GOOGLE_API_KEY" in os.environ:
     genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 else:
     print('Gemini token has not been set up yet!')
