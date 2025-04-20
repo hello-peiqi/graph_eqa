@@ -1,7 +1,7 @@
 Question0:
-  question: "What is the color of the table?"
+  question: "Where is the message gun"
   choices:
-    A: 'Black'
-    B: 'White'
+    A: 'On the drawer'
+    B: 'On the table'
   answer: A
-  enrich_labels: "table"
+  enrich_labels: "message gun, drawer, table"

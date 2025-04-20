@@ -24,7 +24,6 @@ def main(stretch_parameter_file, cfg):
     results_filename = output_path / f'{cfg.results_filename}.json'
 
     questions_data = load_stretch_questions_data(Path(__file__).resolve().parent.parent / cfg.data.question_data_path)
-    print(cfg.question)
     question_data = questions_data[cfg.question]
     vlm_question, vlm_pred_candidates = question_data['vlm_question'], question_data['vlm_pred_candidates']
     choices, answer, clean_ques_ans, enrich_labels = question_data['choices'], question_data['answer'], question_data['clean_ques_ans'], question_data['enrich_labels']
