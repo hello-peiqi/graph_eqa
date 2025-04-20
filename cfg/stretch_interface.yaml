@@ -1,4 +1,4 @@
-robot_ip: 192.168.0.15 # Check
+robot_ip: 100.89.66.104 # Check
 enable_rerun_server: True
 enable_realtime_updates: False
 use_semantic_sensor: True

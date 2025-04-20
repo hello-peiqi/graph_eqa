@@ -7,12 +7,12 @@ import base64
 from openai import OpenAI
 from graph_eqa.utils.data_utils import get_latest_image
 from pydantic import BaseModel
+import os
 
-# client = OpenAI(
-#     organization='org-9eg1dYLvm9Vnx13YZieDfE9n',
-#     project='proj_rZU06lthKefMBx9rE3YGD2Um',
-# )
-client = OpenAI()
+if "OPENAI_API_KEY" in os.environ:
+    client = OpenAI()
+else:
+    print('GPT token has not been set up yet!')
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:
