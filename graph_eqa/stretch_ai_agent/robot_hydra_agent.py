@@ -459,7 +459,7 @@ class RobotHydraAgent:
 
     def rotate_in_place(
         self,
-        steps: Optional[int] = -1,
+        steps: Optional[int] = 8,
         visualize: bool = False,
         verbose: bool = False,
         full_sweep: bool = True,
@@ -813,8 +813,8 @@ class RobotHydraAgent:
             imgs_depth=self.traj_imgs_depth, 
             intrinsics=self.traj_camera_Ks,
             extrinsics=self.traj_camera_poses)
-        if self.robot._rerun:
-            self.robot._rerun.update_scene_graph_hydra(self.sg_sim)
+        # if self.robot._rerun:
+        #     self.robot._rerun.update_scene_graph_hydra(self.sg_sim)
 
 
     def update_map_loop(self):
@@ -945,8 +945,8 @@ class RobotHydraAgent:
             self.robot._rerun.update_voxel_map(self.space)
             if self.use_scene_graph:
                 self.robot._rerun.update_scene_graph(self.scene_graph, self.semantic_sensor)
-            self.robot._rerun.update_hydra_mesh(self.hydra_pipeline)
-            self.robot._rerun.update_frontier(self.clustered_frontiers, self.frontier_points, self.outside_frontier_points)
+            # self.robot._rerun.update_hydra_mesh(self.hydra_pipeline)
+            # self.robot._rerun.update_frontier(self.clustered_frontiers, self.frontier_points, self.outside_frontier_points)
             
         else:
             logger.error("No rerun server available!")
@@ -2474,7 +2474,8 @@ class RobotHydraAgent:
         for frontier in _clustered_frontiers:
             if self.space.is_valid(frontier, verbose=False):
                 self.clustered_frontiers.append(frontier)
-        self.clustered_frontiers = np.stack(self.clustered_frontiers, axis=0)
+        if len(self.clustered_frontiers) != 0:
+            self.clustered_frontiers = np.stack(self.clustered_frontiers, axis=0)
     
     def get_closest_safe_node(self, pose, pose_id):
         frontier, outside_frontier, traversible = self.space.get_frontier()
