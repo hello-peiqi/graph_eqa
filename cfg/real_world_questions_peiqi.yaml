@@ -1,7 +1,7 @@
 Question0:
-  question: "Where is the message gun"
+  question: "Where is the laptop"
   choices:
-    A: 'On the drawer'
-    B: 'On the table'
-  answer: A
-  enrich_labels: "message gun, drawer, table"
+    A: 'On the black table'
+    B: 'On the white drawer'
+  answer: B
+  enrich_labels: "monitor, drawer"

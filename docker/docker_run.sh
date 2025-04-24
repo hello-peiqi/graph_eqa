@@ -22,6 +22,8 @@ docker run -it \
   --env="XAUTHORITY:$XAUTHORITY" \
   --gpus all \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ~/peiqi/graph_eqa:/root/graph_eqa \
+  -v ~/peiqi/stretch_ai:/root/stretch_ai \
   -e QT_X11_NO_MITSHM=1 \
   -e NVIDIA_VISIBLE_DEVICES=all \
   -e LD_LIBRARY_PATH=/usr/lib/nvidia-535:$LD_LIBRARY_PATH \

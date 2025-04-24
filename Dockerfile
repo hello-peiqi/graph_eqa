@@ -1,5 +1,5 @@
 # Use Ubuntu 20.04 as the base image
-FROM nvidia/cuda:12.4.0-devel-ubuntu20.04
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
 
 # Set environment variables to avoid interactive prompts during package installations
 ENV DEBIAN_FRONTEND=noninteractive
@@ -105,7 +105,7 @@ RUN source /catkin_ws/devel/setup.bash \
 WORKDIR /root
 
 RUN source activate grapheqa \
-    && git clone https://github.com/SaumyaSaxena/graph_eqa.git \
+    && git clone https://github.com/hello-peiqi/graph_eqa.git \
     && cd graph_eqa \
     && pip install sentencepiece \
     && pip install -e . \
@@ -117,7 +117,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN source activate grapheqa \
-    && git clone https://github.com/hello-robot/stretch_ai --branch hello-peiqi/grapheqa \
+    && git clone https://github.com/peiqi-liu/stretch_ai --branch hello-peiqi/grapheqa_experiment \
     && cd stretch_ai \
     && pip install -e ./src[dev] \
     && git submodule update --init --recursive \
@@ -138,7 +138,7 @@ WORKDIR /root/graph_eqa
 # RUN wget https://github.com/SaumyaSaxena/explore-eqa_semnav/blob/master/data/questions.csv
 # RUN wget https://github.com/SaumyaSaxena/explore-eqa_semnav/blob/master/data/scene_init_poses.csv
 
-RUN source activate grapheqa && python -c "from transformers import AutoModel ; model = AutoModel.from_pretrained('google/siglip-so400m-patch14-384')"
+RUN source activate grapheqa && python -c "from transformers import AutoModel ; model = AutoModel.from_pretrained('google/siglip-base-patch16-224')"
 
 # Default command: Launch bash
 CMD ["bash"]
