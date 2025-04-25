@@ -1,7 +1,7 @@
 Question0:
-  question: "Where is the laptop"
+  question: "Where is the color of the washing machine?"
   choices:
-    A: 'On the black table'
-    B: 'On the white drawer'
-  answer: B
-  enrich_labels: "monitor, drawer"
+    A: 'Blue and white'
+    B: 'Black'
+  answer: A
+  enrich_labels: "washing machine"

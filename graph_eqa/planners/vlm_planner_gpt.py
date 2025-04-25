@@ -214,6 +214,8 @@ class VLMPlannerEQAGPT:
             # {"role": "user", "content": f"EXAMPLE PLAN: {self._example_plan}"} # TODO(saumya)
         ]
 
+        print("GPT messages", messages)
+
         if self._use_image:
 
             base64_image = encode_image(get_latest_image(self._output_path))

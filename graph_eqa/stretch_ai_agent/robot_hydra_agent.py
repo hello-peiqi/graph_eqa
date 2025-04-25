@@ -2471,6 +2471,11 @@ class RobotHydraAgent:
         )
         self.clustered_frontiers = []
         # print("Checking clustered frontiers")
+        # print("min_points_for_clustering", self.parameters["motion_planner"]["frontier"]["min_points_for_clustering"], 
+        #     "num_clusters", self.parameters["motion_planner"]["frontier"]["num_clusters"], 
+        #     "cluster_threshold", self.parameters["motion_planner"]["frontier"]["cluster_threshold"])
+        # print("frontier points shape", len(self.frontier_points))
+        # print("clustered_frontiers shape", len(_clustered_frontiers))
         for frontier in _clustered_frontiers:
             if self.space.is_valid(frontier, verbose=False):
                 self.clustered_frontiers.append(frontier)
