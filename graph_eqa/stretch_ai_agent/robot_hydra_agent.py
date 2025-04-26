@@ -34,7 +34,8 @@ from stretch.mapping.instance import Instance
 from stretch.mapping.scene_graph import SceneGraph
 from stretch.mapping.voxel import SparseVoxelMap, SparseVoxelMapNavigationSpace
 from stretch.motion import ConfigurationSpace, Planner, PlanResult
-from stretch.motion.algo import RRTConnect, Shortcut, SimplifyXYT
+# from stretch.motion.algo import RRTConnect, Shortcut, SimplifyXYT
+from stretch.motion.algo import AStar
 from stretch.perception.encoders import BaseImageTextEncoder, get_encoder
 from stretch.perception.wrapper import OvmmPerception
 from stretch.utils.geometry import angle_difference, xyt_base_to_global
@@ -178,17 +179,18 @@ class RobotHydraAgent:
         self._previous_goal = None
 
         # Create a simple motion planner
-        self.planner: Planner = RRTConnect(self.space, self.space.is_valid)
-        if parameters["motion_planner"]["shortcut_plans"]:
-            self.planner = Shortcut(self.planner, parameters["motion_planner"]["shortcut_iter"])
-        if parameters["motion_planner"]["simplify_plans"]:
-            self.planner = SimplifyXYT(
-                self.planner,
-                min_step=parameters["motion_planner"]["simplify"]["min_step"],
-                max_step=parameters["motion_planner"]["simplify"]["max_step"],
-                num_steps=parameters["motion_planner"]["simplify"]["num_steps"],
-                min_angle=parameters["motion_planner"]["simplify"]["min_angle"],
-            )
+        # self.planner: Planner = RRTConnect(self.space, self.space.is_valid)
+        # if parameters["motion_planner"]["shortcut_plans"]:
+        #     self.planner = Shortcut(self.planner, parameters["motion_planner"]["shortcut_iter"])
+        # if parameters["motion_planner"]["simplify_plans"]:
+        #     self.planner = SimplifyXYT(
+        #         self.planner,
+        #         min_step=parameters["motion_planner"]["simplify"]["min_step"],
+        #         max_step=parameters["motion_planner"]["simplify"]["max_step"],
+        #         num_steps=parameters["motion_planner"]["simplify"]["num_steps"],
+        #         min_angle=parameters["motion_planner"]["simplify"]["min_angle"],
+        #     )
+        self.planner = AStar(self.space)
         
         self.traj_imgs_rgb, self.traj_imgs_depth, self.traj_camera_Ks, self.traj_camera_poses = [], [], [], []
         self.output_path = output_path
@@ -858,7 +860,7 @@ class RobotHydraAgent:
                 logger.error("Failed to get observation")
                 break
 
-        tilt = -1 * np.pi / 4
+        tilt = -1 * np.pi / 3
         for i in range(num_steps):
             if move_head:
                 pan = -1 * i * np.pi / 4
@@ -1976,17 +1978,17 @@ class RobotHydraAgent:
             start_is_valid = self.space.is_valid(start, verbose=False)
 
             # if start is not valid move backwards a bit
-            if not start_is_valid:
-                click.secho("Start not valid. back up a bit.",fg="red",)
-                ok = self.recover_from_invalid_start()
-                if ok:
-                    start = self.robot.get_base_pose()
-                    start_is_valid = self.space.is_valid(start, verbose=False)
-                    if not self._realtime_updates:
-                        self.update()
-                if not start_is_valid:
-                    click.secho("Failed to recover from invalid start state!",fg="red",)
-                    break
+            # if not start_is_valid:
+            #     click.secho("Start not valid. back up a bit.",fg="red",)
+            #     ok = self.recover_from_invalid_start()
+            #     if ok:
+            #         start = self.robot.get_base_pose()
+            #         start_is_valid = self.space.is_valid(start, verbose=False)
+            #         if not self._realtime_updates:
+            #             self.update()
+            #     if not start_is_valid:
+            #         click.secho("Failed to recover from invalid start state!",fg="red",)
+            #         break
             
             # if len(self.clustered_frontiers) == 0:
             #     click.secho("Empty clustered frontiers. Rotating in place!",fg="yellow",)

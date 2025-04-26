@@ -138,7 +138,7 @@ class SceneGraphSim:
             self.rr_logger.log_clear("world/hydra_graph")
             self.rr_logger.log_clear("/world/annotations/bb")
         
-        agent_ids, agent_cat_ids = [], []
+        agent_ids, agent_cat_ids, agent_positions = [], [], []
         for layer in self.pipeline.graph.dynamic_layers:
             for node in layer.nodes:
                 if 'a' in node.id.category.lower():
@@ -151,13 +151,16 @@ class SceneGraphSim:
                     attr['name'] = node_name
                     attr['layer'] = node.layer
                     attr['timestamp'] = float(node.timestamp/1e8)
-                    self.filtered_netx_graph.add_nodes_from([(nodeid, attr)])
+                    agent_positions.append(list(node.attributes.position))
+                    # Too many agent nodes might influence the performance
+                    # self.filtered_netx_graph.add_nodes_from([(nodeid, attr)])
                     if self.rr_logger is not None:
                         self.rr_logger.log_hydra_graph(is_node=True, nodeid=nodeid, node_type=node_type, node_pos_source=np.array(node.attributes.position))
         
         if len(agent_cat_ids) > 0:
             self.curr_agent_id = agent_ids[np.argmax(agent_cat_ids)]
-            self.curr_agent_pos = self.get_position_from_id(self.curr_agent_id)
+            # self.curr_agent_pos = self.get_position_from_id(self.curr_agent_id)
+            self.curr_agent_pos = agent_positions[np.argmax(agent_cat_ids)]
         
         object_node_positions, bb_half_sizes, bb_centroids, bb_mat3x3, bb_labels, bb_colors = [], [], [], [], [], []
         self.filtered_obj_positions, self.filtered_obj_ids = [], []
@@ -171,6 +174,9 @@ class SceneGraphSim:
             attr['layer'] = node.layer
             if self.rr_logger is not None:
                 self.rr_logger.log_hydra_graph(is_node=True, nodeid=nodeid, node_type=node_type, node_pos_source=np.array(node.attributes.position))
+
+            if 'a' in node.id.category.lower():
+                continue
 
             if node.id.category.lower() in ['o', 'r', 'b']:
                 attr['label'] = node.attributes.semantic_label
@@ -244,12 +250,13 @@ class SceneGraphSim:
             if self.rr_logger is not None:
                 self.rr_logger.log_hydra_graph(is_node=False, edge_type=edge_type, edgeid=edgeid, node_pos_source=np.array(source_node.attributes.position), node_pos_target=np.array(target_node.attributes.position))
             
-            self.filtered_netx_graph.add_edges_from([(
-                sourceid, targetid,
-                {'source_name': source_name,
-                'target_name': target_name,
-                'type': edge_type}
-            )])
+            if "agent" not in source_name and "agent" not in target_name:
+                self.filtered_netx_graph.add_edges_from([(
+                    sourceid, targetid,
+                    {'source_name': source_name,
+                    'target_name': target_name,
+                    'type': edge_type}
+                )])
         
     def update_frontier_nodes(self, frontier_nodes):
         if len(frontier_nodes)>0:
@@ -366,13 +373,15 @@ class SceneGraphSim:
         return nodeid, node_type, node_name
     
     def get_current_semantic_state_str(self):
-        agent_pos = self.filtered_netx_graph.nodes[self.curr_agent_id]['position']
+        # agent_pos = self.filtered_netx_graph.nodes[self.curr_agent_id]['position']
+        agent_pos = self.curr_agent_pos
         agent_loc_str = f'The agent is currently at node {self.curr_agent_id} at position {agent_pos}'
-        if self.include_regions:
-            agent_place_ids = [place_id for place_id in self.filtered_netx_graph.predecessors(self.curr_agent_id)]
-            room_id = [room_id for room_id in self.filtered_netx_graph.predecessors(agent_place_ids[0])]
-        else:
-            room_id = [room_id for room_id in self.filtered_netx_graph.predecessors(self.curr_agent_id)]
+        # if self.include_regions:
+        #     agent_place_ids = [place_id for place_id in self.filtered_netx_graph.predecessors(self.curr_agent_id)]
+        #     room_id = [room_id for room_id in self.filtered_netx_graph.predecessors(agent_place_ids[0])]
+        # else:
+        #     room_id = [room_id for room_id in self.filtered_netx_graph.predecessors(self.curr_agent_id)]
+        room_id = []
         
         room_str = ''
         if len(room_id) > 0:
