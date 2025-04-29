@@ -1,7 +1,15 @@
 Question0:
-  question: "Where is the color of the washing machine?"
+  question: "What is the color of the dehumidifier machine?"
   choices:
-    A: 'Blue and white'
-    B: 'Black'
-  answer: A
-  enrich_labels: "washing machine"
+    A: 'Blue'
+    B: 'White and gray'
+  answer: B
+  enrich_labels: "dehumidifier machine"
+
+Question1:
+  question: "Is there any object on the black plastic drawer"
+  choices:
+    A: 'Yes'
+    B: 'No'
+  answer: B
+  enrich_labels: "drawer"

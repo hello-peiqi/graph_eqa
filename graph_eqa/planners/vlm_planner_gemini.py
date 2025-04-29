@@ -15,6 +15,7 @@ else:
 
 # Choose a Gemini model.
 gemini_model = genai.GenerativeModel(model_name="models/gemini-2.5-pro-preview-03-25")
+# gemini_model = genai.GenerativeModel(model_name="models/gemini-2.5-flash-preview-04-17")
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:
@@ -298,6 +299,7 @@ class VLMPlannerEQAGemini:
             {"role": "model", "parts": [{"text": f"QUESTION: {self._question}"}]},
             {"role": "user", "parts": [{"text": f"CURRENT STATE: {current_state_prompt}."}]},
         ]
+        print(messages)
         
         if self._use_image:
             image_path = get_latest_image(self._output_path)

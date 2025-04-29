@@ -175,7 +175,7 @@ class SceneGraphSim:
             if self.rr_logger is not None:
                 self.rr_logger.log_hydra_graph(is_node=True, nodeid=nodeid, node_type=node_type, node_pos_source=np.array(node.attributes.position))
 
-            if 'a' in node.id.category.lower():
+            if 'a' in node.id.category.lower() or 'f' in node.id.category.lower():
                 continue
 
             if node.id.category.lower() in ['o', 'r', 'b']:
@@ -259,7 +259,9 @@ class SceneGraphSim:
                 )])
         
     def update_frontier_nodes(self, frontier_nodes):
-        if len(frontier_nodes)>0:
+        print("frontier nodes") 
+        print(frontier_nodes)
+        if len(frontier_nodes)>0 and len(self.filtered_obj_positions):
             self.filtered_obj_positions = np.array(self.filtered_obj_positions)
             self.filtered_obj_ids = np.array(self.filtered_obj_ids)
             self._frontier_node_ids = []
@@ -408,6 +410,7 @@ class SceneGraphSim:
         return np.array(self.filtered_netx_graph.nodes[nodeid]['position'])
 
     def save_best_image(self, imgs_rgb):
+        print("The number of images", len(imgs_rgb))
 
         img_idx = 0
         while (self.output_path / f'current_img_{img_idx}.png').exists():

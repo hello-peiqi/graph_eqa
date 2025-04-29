@@ -32,7 +32,7 @@ scene_graph_sim:
   enrich_frontiers: True
 
 vlm:
-  name: "gpt-4o" # 'gemini', 'gpt-4o-mini', 
+  name: "gemini" # 'gemini', 'gpt-4o', 'gpt-4o-mini'
   use_image: True
   use_done_action: False
   add_history: True
