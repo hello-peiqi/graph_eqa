@@ -138,7 +138,7 @@ WORKDIR /root/graph_eqa
 # RUN wget https://github.com/SaumyaSaxena/explore-eqa_semnav/blob/master/data/questions.csv
 # RUN wget https://github.com/SaumyaSaxena/explore-eqa_semnav/blob/master/data/scene_init_poses.csv
 
-RUN source activate grapheqa && python -c "from transformers import AutoModel ; model = AutoModel.from_pretrained('google/siglip-base-patch16-224')"
+RUN source activate grapheqa && python -c "from transformers import AutoModel ; model = AutoModel.from_pretrained('google/siglip-so400m-patch14-384')"
 
 # Default command: Launch bash
 CMD ["bash"]

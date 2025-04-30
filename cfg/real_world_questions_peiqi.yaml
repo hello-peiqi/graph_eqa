@@ -2,7 +2,8 @@ Question0:
   question: "What is the color of the dehumidifier machine?"
   choices:
     A: 'Blue'
-    B: 'White and gray'
+    B: 'White'
+    C: 'Black'
   answer: B
   enrich_labels: "dehumidifier machine"
 

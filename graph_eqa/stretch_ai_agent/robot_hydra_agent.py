@@ -2009,7 +2009,10 @@ class RobotHydraAgent:
                 confidence_text = "I am NOT confident with the answer: "
 
             # self.robot._rerun.log_text("QA", vlm_planner.full_plan + "\n" + vlm_planner._question + "\n" + confidence_text + answer_output)
-            self.robot._rerun.log_text("QA", "#### " + vlm_planner._question + "\n" + "#### " + confidence_text + answer_output)
+            question = ""
+            for line in vlm_planner._question.split("\n"):
+                question += ("#### " + line + "\n")
+            self.robot._rerun.log_text("QA",  question + "\n" + "#### " + confidence_text + answer_output)
 
             if is_confident or (confidence_level>0.85):
                 succ = (answer == answer_output)
@@ -2101,8 +2104,8 @@ class RobotHydraAgent:
 
         finished = True
         if waypoints is not None:
-            if not len(waypoints) <= 10:
-                waypoints = waypoints[:10]
+            if not len(waypoints) <= 8:
+                waypoints = waypoints[:8]
                 finished = False
             traj = self.planner.clean_path_for_xy(waypoints)
             if finished and target_theta is not None:

@@ -75,8 +75,8 @@ class SceneGraphSim:
 
         if self.sg_cfg.key_frame_selection.use_siglip_for_images:
             from transformers import AutoProcessor, AutoModel
-            self.model = AutoModel.from_pretrained("google/siglip-base-patch16-224").to(device)
-            self.processor = AutoProcessor.from_pretrained("google/siglip-base-patch16-224")
+            self.model = AutoModel.from_pretrained("google/siglip-so400m-patch14-384").to(device)
+            self.processor = AutoProcessor.from_pretrained("google/siglip-so400m-patch14-384")
             labels = self.enrich_object_labels.replace('.', '')
             exist = f'There is  {labels} in the scene.'
             self.question_embed = self.processor(text=[clean_ques_ans], padding="max_length", return_tensors="pt").to(device)
