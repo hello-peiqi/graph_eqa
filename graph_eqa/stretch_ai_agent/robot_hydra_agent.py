@@ -2004,6 +2004,14 @@ class RobotHydraAgent:
             ) = vlm_planner.get_next_action()
 
             if is_confident or (confidence_level>0.85):
+                confidence_text = "I am confident with the answer: "
+            else:
+                confidence_text = "I am NOT confident with the answer: "
+
+            # self.robot._rerun.log_text("QA", vlm_planner.full_plan + "\n" + vlm_planner._question + "\n" + confidence_text + answer_output)
+            self.robot._rerun.log_text("QA", "#### " + vlm_planner._question + "\n" + "#### " + confidence_text + answer_output)
+
+            if is_confident or (confidence_level>0.85):
                 succ = (answer == answer_output)
                 if succ:
                     result = f"Success at vlm step {planning_step}"
@@ -2013,7 +2021,7 @@ class RobotHydraAgent:
                     result = f"Failure at vlm step {planning_step}"
                     click.secho(result,fg="red",)
                     click.secho(f"VLM Planner answer: {answer_output}, Correct answer: {answer}",fg="red",)
-                self.robot._rerun.log_planner_text(vlm_planner.full_plan + "\n" + result)
+                # self.robot._rerun.log_planner_text(vlm_planner.full_plan + "\n" + result)
                 break
 
             self.traj_imgs_rgb, self.traj_imgs_depth, self.traj_camera_Ks, self.traj_camera_poses = [], [], [], []
@@ -2527,12 +2535,15 @@ class RobotHydraAgent:
         )
         self.clustered_frontiers = []
 
-        obstacles, explored = self.voxel_map.get_2d_map()
-        navigable = ~obstacles & explored
+        # This only works for A*
+        self.planner.reset()
+        start_pose = self.robot.get_base_pose()
+        navigable_points = self.planner.get_reachable_points(self.planner.to_pt((start_pose[0], start_pose[1])))
 
         for frontier in _clustered_frontiers:
-            frontier_grid = self.voxel_map.xy_to_grid_coords(np.array([frontier[0], frontier[1]]))
-            if navigable[int(frontier_grid[0]), int(frontier_grid[1])]:
+            frontier_grid = self.voxel_map.xy_to_grid_coords(np.array([frontier[0], frontier[1]])).int()
+            frontier_grid = (frontier_grid[0].item(), frontier_grid[1].item())
+            if frontier_grid in navigable_points:
                 self.clustered_frontiers.append(frontier)
         if len(self.clustered_frontiers) != 0:
             self.clustered_frontiers = np.stack(self.clustered_frontiers, axis=0)

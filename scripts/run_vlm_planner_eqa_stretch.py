@@ -86,7 +86,6 @@ def main(stretch_parameter_file, cfg):
     agent.start()
     agent.update()
    
-    parameters["agent"]["in_place_rotation_steps"] = 0
     if parameters["agent"]["in_place_rotation_steps"] > 0:
         agent.rotate_in_place(
             steps=parameters["agent"]["in_place_rotation_steps"],

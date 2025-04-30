@@ -12,4 +12,4 @@ Question1:
     A: 'Yes'
     B: 'No'
   answer: B
-  enrich_labels: "drawer"
+  enrich_labels: "black plastic drawer"

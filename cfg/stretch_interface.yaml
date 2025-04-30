@@ -103,7 +103,7 @@ agent:
     temporal_threshold: 0.1
   use_realtime_updates: False
   realtime_rotation_steps: 4
-  in_place_rotation_steps: 0  # If you are not moving the head, rotate more often
+  in_place_rotation_steps: 8  # If you are not moving the head, rotate more often
   sweep_head_on_update: False
   in_place_static_steps: 10
   # in_place_rotation_steps: 4
