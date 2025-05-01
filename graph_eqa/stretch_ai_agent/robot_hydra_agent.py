@@ -854,7 +854,7 @@ class RobotHydraAgent:
             num_steps = 6
 
         while obs is None:
-            self.robot.head_to(0, -1 * np.pi / 4, blocking = True)
+            self.robot.head_to(0, -1 * np.pi / 5, blocking = True)
             obs = self.robot.get_observation()
             t1 = timeit.default_timer()
             if t1 - t0 > 10:
@@ -864,7 +864,7 @@ class RobotHydraAgent:
         tilt = -1 * np.pi / 3
         for i in range(num_steps):
             if move_head:
-                pan = -1 * i * np.pi / 4
+                pan = -1 * i * np.pi / 5
                 print(f"[UPDATE] Head sweep {i} at {pan}, {tilt}")
                 self.robot.head_to(pan, tilt, blocking=True)
                 time.sleep(self._after_head_motion_sleep_t)

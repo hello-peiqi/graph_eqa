@@ -1,6 +1,6 @@
 # General
 seed: 42
-question: 1
+question: 0
 exp_name: stretch_${vlm.name}_question_${question}
 output_path: outputs/${exp_name}
 results_filename: ${exp_name}_results

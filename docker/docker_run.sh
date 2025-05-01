@@ -25,7 +25,6 @@ docker run -it \
   -e QT_X11_NO_MITSHM=1 \
   -e NVIDIA_VISIBLE_DEVICES=all \
   -e LD_LIBRARY_PATH=/usr/lib/nvidia-535:$LD_LIBRARY_PATH \
-  -v $SSH_AUTH_SOCK_VAR:/run/ssh-agent \
   -e SSH_AUTH_SOCK=/run/ssh-agent \
   -v $WORKSPACE_DIR:/workspace:cached \
    --runtime nvidia \
